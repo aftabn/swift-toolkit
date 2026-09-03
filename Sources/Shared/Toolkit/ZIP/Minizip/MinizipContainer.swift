@@ -123,7 +123,11 @@ private actor MinizipResource: Resource, Loggable {
         return await zipFile().flatMap { zipFile in
             do {
                 try zipFile.openEntry(at: entryPath, offset: range.lowerBound)
-                try consume(zipFile.readFromCurrentOffset(length: UInt64(range.count)))
+                // VOIDLEAF PATCH (aftabn/voidleaf#21): subtract in UInt64.
+                // Range<UInt64>.count goes through Int and traps with "Distance
+                // is not representable in Int" when a corrupt zip64
+                // uncompressed-size field exceeds Int.max.
+                try consume(zipFile.readFromCurrentOffset(length: range.upperBound - range.lowerBound))
                 return .success(())
             } catch {
                 return .failure(.wrap(error) ?? .decoding(error))
@@ -280,7 +284,11 @@ private final class MinizipFile {
             return Data()
         }
 
-        var data = Data(capacity: Int(length))
+        // VOIDLEAF PATCH (aftabn/voidleaf#21): this is a capacity hint taken
+        // from an unvalidated central-directory field. A corrupted size asks for
+        // a multi-gigabyte reservation for a small book — survivable on macOS, a
+        // jetsam kill on iOS. The buffer still grows to whatever is actually read.
+        var data = Data(capacity: Int(min(length, 8 * 1024 * 1024)))
         try readFromCurrentOffset(length: length) { bytes, length in
             data.append(bytes, count: Int(length))
         }
