@@ -4,13 +4,17 @@
 //  available in the top-level LICENSE file of the project.
 //
 
-// swiftformat:disable indent
+// swiftformat:options --ifdef no-indent
 //
 // The `#if` below wraps the whole file, so SwiftFormat's default ifdef
 // handling would indent every line inside it. That is a lot of churn for a
 // gate that is structural rather than a real scope, and it would make every
-// future upstream edit to this file conflict on rebase. The rule is off here
-// so the patch stays the two lines it actually is.
+// future upstream edit to this file conflict on rebase.
+//
+// This option suppresses ifdef-body indentation only, leaving the `indent`
+// rule itself enforcing the code below. Turning the rule off outright would
+// also work, but it stays off for the rest of the file, so a real
+// indentation defect introduced by a later rebase would pass silently.
 #if os(iOS)
 
 import AVFoundation
