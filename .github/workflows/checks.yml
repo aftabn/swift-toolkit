@@ -2,7 +2,12 @@ name: Checks
 
 on:
   push:
-    branches: [ main, develop ]
+    # macos-support is voidleaf's patch branch. It is here because two of its
+    # commits change MinizipContainer.swift *unguarded* — they fix a crash that
+    # is present on iOS too — and upstream's own MinizipContainerTests are the
+    # only thing that exercises them on the platform they affect. Without this
+    # trigger the one iOS-visible change on the branch is the one nothing runs.
+    branches: [ main, develop, macos-support ]
   pull_request:
 
 env:
