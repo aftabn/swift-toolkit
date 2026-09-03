@@ -288,6 +288,11 @@ private final class MinizipFile {
         // from an unvalidated central-directory field. A corrupted size asks for
         // a multi-gigabyte reservation for a small book — survivable on macOS, a
         // jetsam kill on iOS. The buffer still grows to whatever is actually read.
+        //
+        // The clamp also makes the conversion itself total: `Int(length)` traps
+        // outright once `length` exceeds `Int.max`, before any allocation is
+        // attempted. No fixture here reaches that — it is guarded because the
+        // value is attacker-controlled, not because it has been observed.
         var data = Data(capacity: Int(min(length, 8 * 1024 * 1024)))
         try readFromCurrentOffset(length: length) { bytes, length in
             data.append(bytes, count: Int(length))

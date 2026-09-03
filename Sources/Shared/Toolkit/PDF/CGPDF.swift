@@ -312,6 +312,10 @@ public class CGPDFDocumentFactory: PDFDocumentFactory, Loggable {
         let contextRef = UnsafeMutablePointer<ResourceContext>.allocate(capacity: 1)
         contextRef.initialize(to: context)
 
+        // VOIDLEAF PATCH: was `UIKit.CGPDFDocument(provider)`. The symbol belongs to
+        // CoreGraphics; UIKit only re-exported it, so the qualifier does not resolve on
+        // macOS. Unguarded because there is exactly one `CGPDFDocument` in scope on
+        // either platform, making this the same call it always was.
         guard
             let provider = CGDataProvider(sequentialInfo: contextRef, callbacks: &callbacks),
             let document = CGPDFDocument(provider)
