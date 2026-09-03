@@ -5,7 +5,12 @@
 //
 
 import Foundation
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#else
+    import CoreGraphics
+    import ImageIO
+#endif
 
 /// Extends Core Graphics's `CGPDFDocument` to conform to `PDFDocument`.
 ///
@@ -309,7 +314,7 @@ public class CGPDFDocumentFactory: PDFDocumentFactory, Loggable {
 
         guard
             let provider = CGDataProvider(sequentialInfo: contextRef, callbacks: &callbacks),
-            let document = UIKit.CGPDFDocument(provider)
+            let document = CGPDFDocument(provider)
         else {
             throw PDFDocumentError.openFailed
         }

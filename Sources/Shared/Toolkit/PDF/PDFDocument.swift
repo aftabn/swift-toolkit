@@ -5,7 +5,12 @@
 //
 
 import Foundation
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#else
+    import CoreGraphics
+    import ImageIO
+#endif
 
 public enum PDFDocumentError: Error {
     /// The provided password was incorrect.
