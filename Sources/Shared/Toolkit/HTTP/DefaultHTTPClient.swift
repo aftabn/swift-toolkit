@@ -110,9 +110,17 @@ public final class DefaultHTTPClient: HTTPClient, Loggable {
         let appInfo = Bundle.main.infoDictionary
         let appName = appInfo?["CFBundleName"] as? String ?? "Unknown App"
         let appVersion = appInfo?["CFBundleShortVersionString"] as? String ?? "0"
-        let device = UIDevice.current
+        #if os(iOS)
+            let device = UIDevice.current
+            let systemName = device.systemName
+            let systemVersion = device.systemVersion
+        #else
+            let version = ProcessInfo.processInfo.operatingSystemVersion
+            let systemName = "macOS"
+            let systemVersion = "\(version.majorVersion).\(version.minorVersion).\(version.patchVersion)"
+        #endif
 
-        return "\(appName)/\(appVersion) \(deviceName) \(device.systemName)/\(device.systemVersion) CFNetwork/\(cfNetworkVersion) Darwin/\(darwinVersion)"
+        return "\(appName)/\(appVersion) \(deviceName) \(systemName)/\(systemVersion) CFNetwork/\(cfNetworkVersion) Darwin/\(darwinVersion)"
     }()
 
     /// Creates a `DefaultHTTPClient` with common configuration settings.

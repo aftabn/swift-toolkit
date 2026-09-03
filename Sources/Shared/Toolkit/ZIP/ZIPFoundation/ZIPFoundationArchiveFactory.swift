@@ -89,7 +89,14 @@ final class ZIPFoundationArchiveFactory {
 /// Indicates whether there is enough available free memory to allocate `length`
 /// bytes.
 private func canAllocate(_ length: Int) -> Bool {
-    os_proc_available_memory() > length
+    #if os(iOS)
+        return os_proc_available_memory() > length
+    #else
+        // os_proc_available_memory() is iOS-only: it reports headroom against the
+        // per-process jetsam limit, which macOS does not impose. With no limit to
+        // check against, the guard has nothing to say and the allocation proceeds.
+        return true
+    #endif
 }
 
 enum ResourceDataSourceError: Error {
