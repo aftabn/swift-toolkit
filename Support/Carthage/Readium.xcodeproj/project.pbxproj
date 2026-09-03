@@ -57,6 +57,7 @@
 		1AEF63A8471C7676092842D2 /* FileExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D555435E2BADB2B877FD50C7 /* FileExtension.swift */; };
 		1B15166C79C7C05CE491AD2C /* CSSProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E6147EF790DE532CE1699D /* CSSProperties.swift */; };
 		1BF9469B4574D30E5C9BB75E /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF859D4933121BDC376CC8A /* Event.swift */; };
+		1CB5CB4E8BE13B32B9009D7C /* PlatformImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229EC289CF8FA074E0EC8A94 /* PlatformImage.swift */; };
 		1CB986C7E440F94F264A3567 /* EPUBSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4741AE26D76A8C2508437C2D /* EPUBSettings.swift */; };
 		1D0B4067739311F6A54240E7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4598F4671CE7BAE9299BF84B /* UIImage.swift */; };
 		1FB7DAE5EF125B0D05261318 /* W3CAccessibilityMetadataDisplayGuide.strings in Resources */ = {isa = PBXBuildFile; fileRef = A686B5257C30B0EA8087EB31 /* W3CAccessibilityMetadataDisplayGuide.strings */; };
@@ -558,6 +559,7 @@
 		212E89D9F2CC639C3E1F81C3 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		218BE3110D2886B252A769A2 /* UTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTI.swift; sourceTree = "<group>"; };
 		21944E1DABB61C2CF2EA89C5 /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
+		229EC289CF8FA074E0EC8A94 /* PlatformImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformImage.swift; sourceTree = "<group>"; };
 		230985A228FA74F24735D6BB /* LCPRenewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCPRenewDelegate.swift; sourceTree = "<group>"; };
 		239A56BB0E6DAF17E0A13447 /* CBZNavigatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBZNavigatorViewController.swift; sourceTree = "<group>"; };
 		24FF3141286A0CF40643D32D /* DragPointerObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragPointerObserver.swift; sourceTree = "<group>"; };
@@ -1913,6 +1915,7 @@
 				AC3487F36FB4BD0BDA0F12E1 /* JSONValue.swift */,
 				68FF131876FA3A63025F2662 /* Language.swift */,
 				5BC6AE42A31D77B548CB0BB4 /* Observable.swift */,
+				229EC289CF8FA074E0EC8A94 /* PlatformImage.swift */,
 				38984FD65CFF1D54FF7F794F /* ReadiumLocalizedString.swift */,
 				E49029874507A91EA6141EDD /* UncheckedSendable.swift */,
 				EE7B762C97CFC214997EC677 /* Weak.swift */,
@@ -2395,14 +2398,14 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				852FFC0F2178644D4E29E4A6 /* ReadiumShared */,
+				3BF1E58F4F109CF643D36473 /* ReadiumStreamer */,
+				ADAFD9451AF38B07D6D08E4D /* ReadiumNavigator */,
+				D108430C1FF339F1B0BDF62C /* ReadiumOPDS */,
+				4BF2ED542535B0B85C2AADA5 /* ReadiumLCP */,
 				54F2C27F15FA1CB5F89B57EE /* ReadiumAdapterGCDWebServer */,
 				223AD2DC63611790F513E0C7 /* ReadiumAdapterLCPSQLite */,
 				D2FC9AB9522724A8A344E6FE /* ReadiumInternal */,
-				4BF2ED542535B0B85C2AADA5 /* ReadiumLCP */,
-				ADAFD9451AF38B07D6D08E4D /* ReadiumNavigator */,
-				D108430C1FF339F1B0BDF62C /* ReadiumOPDS */,
-				852FFC0F2178644D4E29E4A6 /* ReadiumShared */,
-				3BF1E58F4F109CF643D36473 /* ReadiumStreamer */,
 			);
 		};
 /* End PBXProject section */
@@ -2807,6 +2810,7 @@
 				E08CABFE57EC96D9F7062AF1 /* PDFKit.swift in Sources */,
 				5CE009E1F701CF5A02FF637D /* PDFOutlineNode.swift in Sources */,
 				23CC10D0E00FAA9C7E1B6DF2 /* PerResourcePositionsService.swift in Sources */,
+				1CB5CB4E8BE13B32B9009D7C /* PlatformImage.swift in Sources */,
 				63E239C6620E16BBA458452E /* PositionsService.swift in Sources */,
 				D7B3500D49A188A0D6B5E7CA /* Presentation.swift in Sources */,
 				AAF00F4BC4765B6755AB46A3 /* Properties+Archive.swift in Sources */,
