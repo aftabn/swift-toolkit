@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 /// A `CoverService` which retrieves the cover from the publication container.
 ///

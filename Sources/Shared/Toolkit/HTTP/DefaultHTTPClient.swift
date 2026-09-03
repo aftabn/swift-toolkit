@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 public enum URLAuthenticationChallengeResponse {
     /// Use the specified credential.

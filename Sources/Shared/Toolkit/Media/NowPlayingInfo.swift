@@ -6,7 +6,9 @@
 
 import Foundation
 import MediaPlayer
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 /// Manages the Now Playing media item displayed on the lock screen.
 ///
