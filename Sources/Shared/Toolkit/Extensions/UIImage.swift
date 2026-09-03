@@ -4,6 +4,15 @@
 //  available in the top-level LICENSE file of the project.
 //
 
+// swiftformat:disable indent
+//
+// The `#if` below wraps the whole file, so SwiftFormat's default ifdef
+// handling would indent every line inside it. That is a lot of churn for a
+// gate that is structural rather than a real scope, and it would make every
+// future upstream edit to this file conflict on rebase. The rule is off here
+// so the patch stays the two lines it actually is.
+#if os(iOS)
+
 import func AVFoundation.AVMakeRect
 import Foundation
 import UIKit
@@ -21,3 +30,5 @@ extension UIImage {
         }
     }
 }
+
+#endif
