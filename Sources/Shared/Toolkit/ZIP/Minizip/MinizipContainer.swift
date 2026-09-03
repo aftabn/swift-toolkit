@@ -307,16 +307,22 @@ private final class MinizipFile {
         while totalBytesRead < length {
             let bytesToRead = min(UInt64(bufferLength), length - totalBytesRead)
             var buffer = [CUnsignedChar](repeating: 0, count: Int(bytesToRead))
-            let bytesRead = UInt64(unzReadCurrentFile(file, &buffer, UInt32(bytesToRead)))
+            // VOIDLEAF PATCH (aftabn/voidleaf#21): check minizip's signed result
+            // before converting. unzReadCurrentFile returns a negative zlib code
+            // on error — Z_DATA_ERROR for a corrupt deflate stream — and
+            // UInt64(negative) traps, killing the process. The `else` branch
+            // below was already written for this case but was unreachable: a
+            // UInt64 is never negative.
+            let result = unzReadCurrentFile(file, &buffer, UInt32(bytesToRead))
+            guard result >= 0 else {
+                throw MinizipError.readFailed
+            }
+            let bytesRead = UInt64(result)
             if bytesRead == 0 {
                 break
             }
-            if bytesRead > 0 {
-                totalBytesRead += bytesRead
-                consumer(buffer, bytesRead)
-            } else {
-                throw MinizipError.readFailed
-            }
+            totalBytesRead += bytesRead
+            consumer(buffer, bytesRead)
         }
     }
 
