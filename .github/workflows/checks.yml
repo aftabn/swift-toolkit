@@ -136,7 +136,13 @@ jobs:
   int-spm:
     name: Integration (Swift Package Manager)
     runs-on: macos-15
-    if: ${{ !github.event.pull_request.draft }}
+    # VOIDLEAF PATCH: this job builds TestApp against the toolkit resolved by commit
+    # SHA from github.com/readium/swift-toolkit. A commit that exists only in a fork
+    # is not in that repository, so the job cannot resolve it and fails structurally
+    # — it never gets far enough to test anything. Skipped outside upstream, because
+    # a check that is always red is a check nobody reads, and this branch's CI exists
+    # to catch the Minizip commits regressing.
+    if: ${{ !github.event.pull_request.draft && github.repository == 'readium/swift-toolkit' }}
     defaults:
       run:
         working-directory: TestApp
