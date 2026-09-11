@@ -174,6 +174,31 @@ class HTMLResourceContentIteratorTest: XCTestCase {
         )
     }
 
+    func testWhitespaceBetweenInlineNodesSurvivesExtraction() async throws {
+        let iter = iterator("<html lang='en'><body><p><span>Read</span> \n <em>novels</em> at example.com.</p></body></html>")
+        let next = try await iter.next()
+        let element = try XCTUnwrap(next as? TextContentElement)
+        XCTAssertEqual(element.segments.map(\.text).joined(), "Read novels at example.com.")
+        XCTAssertTrue(element.locator.text.highlight?.contains("Read \n novels") == true)
+    }
+
+    func testWhitespaceUsesThePreviousLanguageWithoutJoiningWords() async throws {
+        let iter = iterator("<html lang='en'><body><p><span>Read</span> <span lang='fr'>novels</span> <span>here.</span></p></body></html>")
+        let next = try await iter.next()
+        let element = try XCTUnwrap(next as? TextContentElement)
+        XCTAssertEqual(element.segments.map(\.text), ["Read ", "novels ", "here."])
+        XCTAssertEqual(element.segments.map { $0.language?.code.bcp47 }, ["en", "fr", "en"])
+    }
+
+    func testLanguageChangesInsideWordsDoNotInventWhitespace() async throws {
+        let iter = iterator("<html lang='en'><body><p>ther<span lang='fr'>ap</span>ist</p> \n <p>Next.</p></body></html>")
+        let first = try await iter.next()
+        let element = try XCTUnwrap(first as? TextContentElement)
+        XCTAssertEqual(element.segments.map(\.text).joined(), "therapist")
+        let second = try await iter.next()
+        XCTAssertEqual((second as? TextContentElement)?.segments.map(\.text).joined(), "Next.")
+    }
+
     func testIterateFromStartToFinish() async throws {
         let iter = iterator(html)
 

@@ -309,7 +309,16 @@ public class HTMLResourceContentIterator: ContentIterator {
 
         func tail(_ node: Node, _ depth: Int) throws {
             if let node = node as? TextNode {
-                guard let wholeText = node.getWholeText().orNilIfBlank() else {
+                let wholeText = node.getWholeText()
+                guard !wholeText.isEmpty else { return }
+                // VOIDLEAF PATCH: spaces between inline nodes belong to the preceding
+                // language run. Dropping them joins words; assigning their parent's
+                // language can flush a whitespace-only run and lose the space again.
+                if wholeText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    if !textAcc.toString().isEmpty {
+                        rawTextAcc += wholeText
+                        try appendNormalisedText(wholeText)
+                    }
                     return
                 }
 

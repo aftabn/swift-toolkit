@@ -1,6 +1,6 @@
 # voidleaf's fork of readium/swift-toolkit
 
-`macos-support` is upstream `3.8.0` plus macOS support and two bug fixes. It
+`macos-support` is upstream `3.8.0` plus macOS support and shared-code bug fixes. It
 exists because [voidleaf](https://github.com/aftabn/voidleaf) is an EPUB reader
 for iOS *and* macOS, and upstream declares itself iOS-only — not because the code
 is deeply iOS-bound, but because a handful of files import UIKit for types that
@@ -24,16 +24,22 @@ drop a now-wrong `UIKit.` module qualifier, and the user-agent builder hoists
 two values into locals — but both produce the identical result. Nothing else on
 this branch is reachable from an iOS build.
 
-**Upstream bug fixes** (both in `MinizipContainer.swift`) are
+**Upstream bug fixes** are
 deliberately *not* guarded, and they *do* change iOS behaviour. That is the
 point: the bug is upstream's, it is present on iOS too, and gating the fix to
 macOS would preserve the defect on the platform where it does the most damage.
-The first is a real crash — a corrupt chapter kills the process. The second
+The first Minizip change prevents a corrupt chapter from crashing the process. The second
 clamps two unvalidated size conversions in the same read path; no fixture
 reaches those, so treat it as hardening on attacker-controlled input rather than
-a demonstrated fix. Both are marked `VOIDLEAF PATCH` in the source, because
+a demonstrated fix. These are marked `VOIDLEAF PATCH` in the source, because
 an unguarded change to shared code is the kind a reader could otherwise mistake
 for upstream's own.
+
+The HTML content iterator also preserves whitespace-only text between inline
+nodes. Those spaces stay with the preceding language run, so `Read <em>novels</em>`
+and adjacent spans keep their word boundaries while language tags inside a word
+do not invent spaces. This applies on both platforms and is covered by iterator
+regressions for plain inline text, language changes and block boundaries.
 
 ## Rebasing onto a new upstream release
 
